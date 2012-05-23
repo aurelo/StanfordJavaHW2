@@ -42,6 +42,12 @@ public class PieceTest {
 		assertEquals(2, pyr2.getWidth());
 		assertEquals(3, pyr2.getHeight());
 		
+		assertEquals(3, pyr3.getWidth());
+		assertEquals(2, pyr3.getHeight());
+
+		assertEquals(2, pyr4.getWidth());
+		assertEquals(3, pyr4.getHeight());
+		
 		// Now try with some other piece, made a different way
 		Piece l = new Piece(Piece.STICK_STR);
 		assertEquals(1, l.getWidth());
@@ -54,6 +60,8 @@ public class PieceTest {
 	public void testSampleSkirt() {
 		// Note must use assertTrue(Arrays.equals(... as plain .equals does not work
 		// right for arrays.
+		
+		System.out.println(pyr1.getSkirt()[1]);
 		assertTrue(Arrays.equals(new int[] {0, 0, 0}, pyr1.getSkirt()));
 		assertTrue(Arrays.equals(new int[] {1, 0, 1}, pyr3.getSkirt()));
 		

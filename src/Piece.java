@@ -1,6 +1,7 @@
 // Piece.java
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -64,9 +65,12 @@ public class Piece {
     
     private void calculateSkirt(){
     	skirt = new int[width];
+    	
+    	// initial value for all x's is value higher then any y value 
+    	Arrays.fill(skirt, getHeight());
+    	
     	for(TPoint p: body){
-    		skirt[p.x] = 0;
-    		skirt[p.x] = skirt[p.x] < p.y ? p.y : skirt[p.x]; 
+    		skirt[p.x] = Math.min(skirt[p.x], p.y);
     	}
     }
 	
@@ -162,7 +166,15 @@ public class Piece {
 		if (!(obj instanceof Piece)) return false;
 		Piece other = (Piece)obj;
 		
-		// YOUR CODE HERE
+        if (other.getHeight() != getHeight()
+        		|| other.getWidth() != getWidth() 
+        		|| other.body.length != body.length 
+        		|| !Arrays.equals(other.getSkirt(), getSkirt())) return false;
+		
+        for (int i = 0; i < body.length; i++){
+        	if (body[i].x != other.body[i].x || body[i].y != other.body[i].y) return false;
+        }
+		
 		return true;
 	}
 
