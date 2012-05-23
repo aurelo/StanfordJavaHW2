@@ -1,7 +1,10 @@
-import static org.junit.Assert.*;
-import java.util.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.*;
+import java.util.Arrays;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /*
   Unit test for Piece class -- starter shell.
@@ -16,6 +19,8 @@ public class PieceTest {
 	// that can be used in tests.
 	private Piece pyr1, pyr2, pyr3, pyr4;
 	private Piece s, sRotated;
+	
+	private Piece stick, stick2, stick3, stick4, stick5;
 
 	@Before
 	public void setUp() throws Exception {
@@ -27,6 +32,13 @@ public class PieceTest {
 		
 		s = new Piece(Piece.S1_STR);
 		sRotated = s.computeNextRotation();
+		
+		 Piece[] pieces = Piece.getPieces();
+		 stick = pieces[Piece.STICK];	
+		 stick2 = stick.fastRotation();
+		 stick3 = stick2.fastRotation();
+		 stick4 = stick3.fastRotation();
+		 stick5 = stick4.fastRotation();
 	}
 	
 	// Here are some sample tests to get you started
@@ -54,7 +66,6 @@ public class PieceTest {
 		assertEquals(4, l.getHeight());
 	}
 	
-	
 	// Test the skirt returned by a few pieces
 	@Test
 	public void testSampleSkirt() {
@@ -63,10 +74,43 @@ public class PieceTest {
 		
 		System.out.println(pyr1.getSkirt()[1]);
 		assertTrue(Arrays.equals(new int[] {0, 0, 0}, pyr1.getSkirt()));
+		assertTrue(Arrays.equals(new int[] {1, 0}, pyr2.getSkirt()));
 		assertTrue(Arrays.equals(new int[] {1, 0, 1}, pyr3.getSkirt()));
+		assertTrue(Arrays.equals(new int[] {0, 1}, pyr4.getSkirt()));
 		
 		assertTrue(Arrays.equals(new int[] {0, 0, 1}, s.getSkirt()));
 		assertTrue(Arrays.equals(new int[] {1, 0}, sRotated.getSkirt()));
+	}
+	
+	@Test
+	public void testFastRotation(){
+		assertEquals(1, stick.getWidth());
+		assertEquals(4, stick.getHeight());
+		assertTrue(Arrays.equals(new int[] {0}, stick.getSkirt()));
+		
+		assertEquals(4, stick2.getWidth());
+		assertEquals(1, stick2.getHeight());
+		assertTrue(Arrays.equals(new int[] {0,0,0,0}, stick2.getSkirt()));
+	
+		assertEquals(1, stick3.getWidth());
+		assertEquals(4, stick3.getHeight());
+		assertTrue(Arrays.equals(new int[] {0}, stick3.getSkirt()));
+
+		assertEquals(4, stick4.getWidth());
+		assertEquals(1, stick4.getHeight());
+		assertTrue(Arrays.equals(new int[] {0,0,0,0}, stick4.getSkirt()));
+
+		assertEquals(1, stick5.getWidth());
+		assertEquals(4, stick5.getHeight());
+		assertTrue(Arrays.equals(new int[] {0}, stick5.getSkirt()));
+		
+		assertTrue(!stick.equals(stick2));
+		assertTrue(!stick.equals(stick3));
+		assertTrue(!stick.equals(stick4));
+		assertTrue(stick.equals(stick5));
+		assertEquals(stick, stick5);
+		assertEquals(stick, stick4.fastRotation());
+		
 	}
 	
 	
