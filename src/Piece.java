@@ -1,6 +1,8 @@
 // Piece.java
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  An immutable representation of a tetris piece in a particular rotation.
@@ -34,10 +36,39 @@ public class Piece {
 	 Makes its own copy of the array and the TPoints inside it.
 	*/
 	public Piece(TPoint[] points) {
-		// YOUR CODE HERE
+		body = points;
+		width = getMaxX() + 1;
+		height = getMaxY() + 1;
+		calculateSkirt();
 	}
 	
+	
+	private int getMaxX(){
+		int maxX = 0;
+		
+		for(TPoint p: body){
+			maxX = maxX < p.x ? p.x : maxX;
+		}
+		
+		return maxX;
+	}
 
+    private int getMaxY(){
+    	int maxY = 0;
+    	
+    	for (TPoint p: body){
+    		maxY = maxY < p.y ? p.y : maxY;
+    	}
+    	return maxY;
+    }
+    
+    private void calculateSkirt(){
+    	skirt = new int[width];
+    	for(TPoint p: body){
+    		skirt[p.x] = 0;
+    		skirt[p.x] = skirt[p.x] < p.y ? p.y : skirt[p.x]; 
+    	}
+    }
 	
 	
 	/**
@@ -85,10 +116,21 @@ public class Piece {
 	/**
 	 Returns a new piece that is 90 degrees counter-clockwise
 	 rotated from the receiver.
+	 Algoritham: new x = max(old y's) - old y = (height - 1) - old y 
+	             new y = old x
 	 */
 	public Piece computeNextRotation() {
-		// YOUR CODE HERE
-		return null; // YOUR CODE HERE
+		TPoint[] rotatedPoints = new TPoint[body.length];
+		TPoint rotatedP;
+		int i = 0;
+	
+		//find max y
+		for(TPoint p: body){
+			rotatedP = new TPoint(height - 1 - p.y, p.x);
+			rotatedPoints[i] = rotatedP;
+			i++;
+		}
+		return new Piece(rotatedPoints); 
 	}
 
 	/**
