@@ -5,6 +5,7 @@ import org.junit.*;
 public class BoardTest {
 	Board b;
 	Piece pyr1, pyr2, pyr3, pyr4, s, sRotated;
+	Piece stick, stickRotated;
 
 	// This shows how to build things in setUp() to re-use
 	// across tests.
@@ -24,6 +25,10 @@ public class BoardTest {
 		s = new Piece(Piece.S1_STR);
 		sRotated = s.computeNextRotation();
 		
+		stick = new Piece(Piece.STICK_STR);
+		stickRotated = stick.computeNextRotation();
+		
+		//b.place(stickRotated, 0, 0);
 		b.place(pyr1, 0, 0);
 	}
 	
@@ -49,6 +54,25 @@ public class BoardTest {
 		assertEquals(3, b.getColumnHeight(2));
 		assertEquals(4, b.getMaxHeight());
 	}
+	
+	// Place rotated stick into the board - does not fit test board
+	@Test
+	public void testSample3() {
+		b.commit();
+		int result = b.place(stickRotated, 0, 2);
+		assertEquals(Board.PLACE_OUT_BOUNDS, result);
+    }
+		
+	
+	// Place stick on already taken place
+	@Test
+	public void testSample4() {
+		b.commit();
+		int result = b.place(stick, 1, 0);
+		assertEquals(Board.PLACE_BAD, result);
+    }	
+	
+	
 	
 	// Make  more tests, by putting together longer series of 
 	// place, clearRows, undo, place ... checking a few col/row/max

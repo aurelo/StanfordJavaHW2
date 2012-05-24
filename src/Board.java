@@ -54,7 +54,18 @@ public class Board	{
 	 For an empty board this is 0.
 	*/
 	public int getMaxHeight() {	 
-		return 0; // YOUR CODE HERE
+		
+		int maxHeight = 0;
+		
+		for (int x = 0; x < grid.length; x++){
+			for(int y = 0; y < grid[x].length; y++){
+				 if(grid[x][y]) maxHeight = Math.max(maxHeight, y + 1);
+				 else continue;
+			}
+		}
+		
+		
+		return maxHeight;
 	}
 	
 	
@@ -88,7 +99,14 @@ public class Board	{
 	 The height is 0 if the column contains no blocks.
 	*/
 	public int getColumnHeight(int x) {
-		return 0; // YOUR CODE HERE
+		
+		int columnHeight = 0;
+		
+		for (int y = 0; y < grid[x].length; y++){
+			if (grid[x][y]) columnHeight++;
+			else break;
+		}
+		return columnHeight;
 	}
 	
 	
@@ -97,7 +115,14 @@ public class Board	{
 	 the given row.
 	*/
 	public int getRowWidth(int y) {
-		 return 0; // YOUR CODE HERE
+		
+		int rowWidth = 0;
+		
+		for(int x = 0; x < grid.length; x++){
+			if (grid[x][y]) rowWidth++;
+		}
+		
+		 return rowWidth;
 	}
 	
 	
@@ -136,7 +161,14 @@ public class Board	{
 			
 		int result = PLACE_OK;
 		
-		// YOUR CODE HERE
+		if (x < 0 || x >= grid.length || y < 0 || y >= grid[0].length) return PLACE_OUT_BOUNDS;
+		
+		for (TPoint p: piece.getBody()){
+			//System.out.println("x: "+ x+" p.x: "+ p.x + " p.y: " + p.y+" length: "+ grid.length);
+			if (x + p.x < 0 || x + p.x >= grid.length || y + p.y < 0 || y + p.y >= grid[0].length) return PLACE_OUT_BOUNDS;
+			if (grid[x + p.x][y + p.y]) return PLACE_BAD;
+			else grid[x + p.x][y + p.y] = true;
+		}
 		
 		return result;
 	}
